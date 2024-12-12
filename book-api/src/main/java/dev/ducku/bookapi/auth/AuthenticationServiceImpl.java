@@ -14,8 +14,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
@@ -97,5 +99,24 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             codeBuilder.append(codeCharacters.charAt(randomInt));
         }
         return codeBuilder.toString();
+    }
+
+    @Override
+    public void activateAccount(String token) throws MessagingException {
+        Token dbToken = tokenRepository
+                .findByToken(token)
+                .orElseThrow(() -> new RuntimeException("Invalid token"));
+        //if user already retrieve email contain not expire activation code, we need to handle a way to prevent user spam this link
+        //ex: activation code 123 expired, send new activation code 456, user use the old 123 to spam the server. 😵
+        if (LocalDateTime.now().isAfter(dbToken.getExpiresAt())) {
+            sendVerificationEmail(dbToken.getUser());
+            throw new RuntimeException("Activation code expired. A new token has been sent to email " + dbToken.getUser().getEmail() + ".");
+        }
+        var user = userRepository.findById(dbToken.getUser().getId()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        user.setEnabled(true);
+        dbToken.setValidatedAt(LocalDateTime.now());
+        tokenRepository.save(dbToken);
+        userRepository.save(user);
+
     }
 }

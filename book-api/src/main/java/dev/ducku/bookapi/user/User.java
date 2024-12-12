@@ -1,5 +1,7 @@
 package dev.ducku.bookapi.user;
 
+import dev.ducku.bookapi.book.Book;
+import dev.ducku.bookapi.history.BookTransactionHistory;
 import dev.ducku.bookapi.role.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -23,8 +25,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Entity
+@Builder
 @Table(name = "users")
 @EntityListeners(AuditingEntityListener.class)
 public class User implements UserDetails, Principal {
@@ -47,6 +49,11 @@ public class User implements UserDetails, Principal {
     private LocalDateTime modifiedDate;
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles;
+    @OneToMany(mappedBy = "owner")
+    private List<Book> books;
+    @OneToMany(mappedBy = "user")
+    private List<BookTransactionHistory> histories;
+
 
     @Override
     public String getName() {
