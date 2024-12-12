@@ -1,0 +1,48 @@
+name: Build And Deploy Spring App
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-deploy:
+    name: build and deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup JDK 21
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'corretto'
+          java-version: 21
+
+      - name: Setup Postgres
+        uses: ikalnytskyi/action-setup-postgres@v7
+        env:
+          run: |
+            createuser username
+            createdb --owner username book_social_network
+            psql -c "ALTER USER username WITH PASSWORD 'password'"
+
+      - name: Unit Tests
+        run: mvn -B test --file pom.xml
+
+      - name: Build the application
+        run: |
+          mvn clean
+          mvn -B package -DskipTests --file pom.xml 
+
+#      - name: Build and Push Docker Image
+#        uses: mr-smithers-excellent/docker-build-push@v6
+#        with:
+#          image: nhoxtam151/bank-project
+#          tags: latest
+#          registry: docker.io
+#          dockerfile: Dockerfile
+#          username: ${{ secrets.DOCKER_USERNAME }}
+#          password: ${{ secrets.DOCKER_PASSWORD }}
+#          context: .
