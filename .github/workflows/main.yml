@@ -33,6 +33,7 @@ jobs:
 
       - name: Build the application
         run: |
+          cd book-api
           mvn clean
           mvn -B package -DskipTests --file pom.xml 
 
