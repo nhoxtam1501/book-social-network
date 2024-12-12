@@ -29,7 +29,9 @@ jobs:
             psql -c "ALTER USER username WITH PASSWORD 'password'"
 
       - name: Unit Tests
-        run: mvn -B test --file pom.xml
+        run: |
+          cd book-api
+          mvn -B test --file pom.xml
 
       - name: Build the application
         run: |
