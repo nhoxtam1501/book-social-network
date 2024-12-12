@@ -26,7 +26,7 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany(mappedBy = "roles")
     @JsonIgnore
     private List<User> users;
     @CreatedDate
