@@ -2,6 +2,7 @@ package dev.ducku.bookapi.user;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
@@ -11,5 +12,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
             attributePaths = {
                     "roles"
             })
-    Optional<User> findByEmail(String email);
+    Optional<User> findByEmail(@Param("email")String email);
 }

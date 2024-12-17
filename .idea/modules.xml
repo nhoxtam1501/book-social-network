@@ -3,8 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/book-social-network.iml" filepath="$PROJECT_DIR$/book-social-network.iml" />
-      <module fileurl="file://$PROJECT_DIR$/book-api/src/main/main.iml" filepath="$PROJECT_DIR$/book-api/src/main/main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/book-api/src/test/test.iml" filepath="$PROJECT_DIR$/book-api/src/test/test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/book-ui/book-ui.iml" filepath="$PROJECT_DIR$/book-ui/book-ui.iml" />
     </modules>
   </component>
 </project>

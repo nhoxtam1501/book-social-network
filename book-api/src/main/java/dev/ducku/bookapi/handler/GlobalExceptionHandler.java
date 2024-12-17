@@ -1,5 +1,6 @@
 package dev.ducku.bookapi.handler;
 
+import dev.ducku.bookapi.exception.OperationNotPermittedException;
 import jakarta.mail.MessagingException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -71,6 +72,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(INTERNAL_SERVER_ERROR)
                 .body(ExceptionResponse.builder()
                         .description("Internal Server Error, please contact admin.")
+                        .error(ex.getMessage())
+                        .build());
+    }
+
+    @ExceptionHandler(OperationNotPermittedException.class)
+    public ResponseEntity<ExceptionResponse> handleException(OperationNotPermittedException ex) {
+        return ResponseEntity.status(BAD_REQUEST)
+                .body(ExceptionResponse.builder()
                         .error(ex.getMessage())
                         .build());
     }
