@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import Keycloak from "keycloak-js/lib/keycloak";
+import Keycloak from "keycloak-js";
 
 export default Keycloak;
 
