@@ -60,10 +60,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "book-ui:build:production"
+              "buildTarget": "book-ui:build:production"
             },
             "development": {
-              "browserTarget": "book-ui:build:development"
+              "buildTarget": "book-ui:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -71,7 +71,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "book-ui:build"
+            "buildTarget": "book-ui:build"
           }
         },
         "test": {
