@@ -12,7 +12,7 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - postgres
+      - book-social-network
     restart: unless-stopped
 
   mail-dev:
@@ -21,11 +21,26 @@ services:
     ports:
       - 1080:1080
       - 1025:1025
+    networks:
+      - book-social-network
+
+  keycloak:
+    image: quay.io/keycloak/keycloak
+    container_name: keycloak_bsn
+    ports:
+      - 9090:8080
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    networks:
+      - book-social-network
+    command:
+      - "start-dev"
 
 
 
 networks:
-  postgres:
+  book-social-network:
     driver: bridge
 
 volumes:

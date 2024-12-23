@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/book-network-ui/book-network-ui.iml" filepath="$PROJECT_DIR$/book-network-ui/book-network-ui.iml" />
       <module fileurl="file://$PROJECT_DIR$/book-social-network.iml" filepath="$PROJECT_DIR$/book-social-network.iml" />
       <module fileurl="file://$PROJECT_DIR$/book-ui/book-ui.iml" filepath="$PROJECT_DIR$/book-ui/book-ui.iml" />
     </modules>

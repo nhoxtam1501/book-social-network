@@ -12,7 +12,7 @@ public interface BookRepository extends JpaRepository<Book, Integer>, JpaSpecifi
             SELECT b FROM Book b
             WHERE b.archived = false
             AND b.shareable = true
-            AND b.owner.id != :userId
+            AND b.createdBy != :userId
             """)
-    Page<Book> findAllDisplayableBooks(Pageable pageable, @Param("userId")Long userId);
+    Page<Book> findAllDisplayableBooks(Pageable pageable, @Param("userId")String userId);
 }

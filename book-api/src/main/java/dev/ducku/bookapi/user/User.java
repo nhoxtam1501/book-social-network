@@ -22,13 +22,14 @@ import java.util.Collection;
 import java.util.List;
 
 
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Builder
-@Table(name = "users")
-@EntityListeners(AuditingEntityListener.class)
+//@Entity
+//@Builder
+//@Table(name = "users")
+//@EntityListeners(AuditingEntityListener.class)
 public class User implements UserDetails, Principal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

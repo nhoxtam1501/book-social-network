@@ -3,11 +3,7 @@ package dev.ducku.bookapi.history;
 
 import dev.ducku.bookapi.book.Book;
 import dev.ducku.bookapi.common.BaseEntity;
-import dev.ducku.bookapi.user.User;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -23,9 +19,11 @@ import lombok.experimental.SuperBuilder;
 @Entity
 @Table(name = "book_transaction_history")
 public class BookTransactionHistory extends BaseEntity {
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    //    @ManyToOne
+//    @JoinColumn(name = "user_id")
+//    private User user;
+    @Column(name = "userid")
+    private String userId;
     @ManyToOne
     @JoinColumn(name = "book_id")
     private Book book;

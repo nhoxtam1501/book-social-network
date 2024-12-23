@@ -12,25 +12,25 @@ public interface BookTransactionHistoryRepository extends JpaRepository<BookTran
 
     @Query("""
             SELECT h FROM BookTransactionHistory h
-            WHERE h.user.id = :userId
+            WHERE h.userId = :userId
             """)
-    Page<BookTransactionHistory> findAllBorrowedBooks(@Param("userId") Long userId, Pageable pageable);
+    Page<BookTransactionHistory> findAllBorrowedBooks(@Param("userId") String userId, Pageable pageable);
 
 
     @Query("""
             SELECT h FROM BookTransactionHistory h
-            WHERE h.book.owner.id = :userId
+            WHERE h.book.createdBy = :userId
             """)
-    Page<BookTransactionHistory> findAllReturnedBooks(@Param("userId") Long userId, Pageable pageable);
+    Page<BookTransactionHistory> findAllReturnedBooks(@Param("userId") String userId, Pageable pageable);
 
     @Query("""
             SELECT (COUNT(*) > 0) AS isBorrowed
             FROM BookTransactionHistory h
-            WHERE h.user.id = :userId
+            WHERE h.userId = :userId
             AND h.book.id = :bookId
             AND h.returnApproved = false
             """)
-    boolean isAlreadyBorrowedByUser(@Param("bookId") Integer bookId,@Param("userId") Long userId);
+    boolean isAlreadyBorrowedByUser(@Param("bookId") Integer bookId,@Param("userId") String userId);
 
     @Query("""
             SELECT (COUNT(*) > 0) AS isBorrowed
@@ -44,11 +44,11 @@ public interface BookTransactionHistoryRepository extends JpaRepository<BookTran
               SELECT transaction
               FROM BookTransactionHistory transaction
               WHERE transaction.book.id = :bookId
-              AND transaction.user.id = :userId
+              AND transaction.userId= :userId
               AND transaction.returnApproved = false
             """
     )
-    Optional<BookTransactionHistory> findByBookIdAndUserId(@Param("bookId") Integer bookId, @Param("userId") Long userId);
+    Optional<BookTransactionHistory> findByBookIdAndUserId(@Param("bookId") Integer bookId, @Param("userId") String userId);
 
     @Query("""
                   SELECT transaction
@@ -58,6 +58,6 @@ public interface BookTransactionHistoryRepository extends JpaRepository<BookTran
                   AND transaction.returned = true
                   AND transaction.returnApproved = false
             """)
-    Optional<BookTransactionHistory> findByBookIdAndOwnerId(@Param("bookId") Integer bookId, @Param("userId") Long userId);
+    Optional<BookTransactionHistory> findByBookIdAndOwnerId(@Param("bookId") Integer bookId, @Param("userId") String userId);
 
 }

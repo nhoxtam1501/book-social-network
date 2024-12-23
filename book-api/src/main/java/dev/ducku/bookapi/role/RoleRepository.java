@@ -5,7 +5,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
-public interface RoleRepository extends JpaRepository<Role, Integer> {
+public interface RoleRepository {//extends JpaRepository<Role, Integer> {
 
-    Optional<Role> findByName(@Param("roleName")String roleName);
+    //Optional<Role> findByName(@Param("roleName")String roleName);
 }

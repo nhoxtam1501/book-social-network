@@ -27,8 +27,8 @@ public class FeedbackServiceImpl implements FeedbackService {
     @Override
     public Integer saveFeedback(FeedbackRequest feedbackRequest, Authentication loggedUser) {
         Book book = findAndValidateBookById(feedbackRequest.bookId());
-        User user = (User) loggedUser.getPrincipal();
-        validateIsEquals(book.getOwner().getId(), user.getId(), "You cannot give a feedback to your own book");
+        //User user = (User) loggedUser.getPrincipal();
+        validateIsEquals(book.getCreatedBy(), loggedUser.getName(), "You cannot give a feedback to your own book");
         Feedback feedback = feedbackMapper.toFeedback(feedbackRequest);
         return repository.save(feedback).getId();
     }
@@ -62,7 +62,7 @@ public class FeedbackServiceImpl implements FeedbackService {
         return book;
     }
 
-    private void validateIsEquals(Number a, Number b, String errorMessage) {
+    private void validateIsEquals(CharSequence a, CharSequence b, String errorMessage) {
         if (!Objects.equals(a, b)) {
             throw new OperationNotPermittedException(errorMessage);
         }
