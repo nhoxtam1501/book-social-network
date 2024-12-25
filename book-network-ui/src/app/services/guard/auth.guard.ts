@@ -1,14 +1,16 @@
-import {CanActivateFn, Router} from '@angular/router';
-import {TokenService} from '../token/token.service';
-import {inject} from '@angular/core';
-import {KeycloakService} from '../keycloak/keycloak.service';
+import {CanActivateFn} from '@angular/router';
 
-export const authGuard: CanActivateFn = () => {
-  const tokenService = inject(KeycloakService);
-  const router = inject(Router);
-  if (tokenService.keycloak.isTokenExpired()) {
-    router.navigate(['login']);
-    return false;
-  }
-  return true;
-};
+export const authGuard: CanActivateFn = () => true;  //= () => {
+//   const tokenService = inject(KeycloakService);
+//   const router = inject(Router);
+//   if (router.url === '/login') {
+//     console.log('User is already on login page.');
+//     return false; // Deny further navigation
+//   }
+//   if (tokenService.keycloak.isTokenExpired()) {
+//     console.log("Token expired. Redirecting to /login")
+//     router.navigate(['login']);
+//     return false;
+//   }
+//   return true;
+// };

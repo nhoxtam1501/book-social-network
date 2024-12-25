@@ -32,6 +32,8 @@ export class KeycloakService {
 
     if (authenticated) {
       this._profile = (await this.keycloak.loadUserProfile()) as UserProfile;
+      console.log(this._profile);
+      console.log(`authenticate state: ${authenticated}`);
       this._profile.token = this.keycloak.token || '';
     }
   }

@@ -25,9 +25,13 @@ const routes: Routes = [
   },
   {
     path: 'books',
-     loadChildren: () => import('./modules/book/book.module').then(m => m.BookModule),
-
-    //canActivate: [authGuard]
+    loadChildren: () => import('./modules/book/book.module').then(m => m.BookModule),
+    canActivate: [authGuard]
+  },
+  {
+    path: '**',
+    redirectTo: 'login', // Or another safe route
+    pathMatch: 'full'
   }
 ];
 

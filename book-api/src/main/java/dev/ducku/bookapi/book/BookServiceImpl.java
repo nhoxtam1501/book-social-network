@@ -47,7 +47,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public PageResponse<BookResponse> findAllBooks(int page, int size, Authentication loggedUser) {
-        //User user = (User) loggedUser.getPrincipal();
+        ////User user = (User) loggedUser.getPrincipal();
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
         Page<Book> bookPage = repository.findAllDisplayableBooks(pageable, loggedUser.getName());
         List<BookResponse> bookResponses = bookPage.stream()
@@ -66,7 +66,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public PageResponse<BookResponse> findAllBooksByOwner(int page, int size, Authentication loggedUser) {
-        //User user = (User) loggedUser.getPrincipal();
+        ////User user = (User) loggedUser.getPrincipal();
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
         Page<Book> bookPage = repository.findAll(withOwnerId(loggedUser.getName()), pageable);
         List<BookResponse> bookResponses = bookPage.stream()
@@ -85,7 +85,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public PageResponse<BorrowedBookResponse> findAllBorrowedBooks(int page, int size, Authentication loggedUser) {
-        //User user = (User) loggedUser.getPrincipal();
+        ////User user = (User) loggedUser.getPrincipal();
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
         Page<BookTransactionHistory> allBorrowedBooks = transactionHistoryRepository.findAllBorrowedBooks(loggedUser.getName(), pageable);
         List<BorrowedBookResponse> bookResponses = allBorrowedBooks.stream()
@@ -104,7 +104,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public PageResponse<BorrowedBookResponse> findAllReturnedBooks(int page, int size, Authentication loggedUser) {
-        User user = (User) loggedUser.getPrincipal();
+        //User user = (User) loggedUser.getPrincipal();
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
         Page<BookTransactionHistory> allBorrowedBooks = transactionHistoryRepository.findAllReturnedBooks(loggedUser.getName(), pageable);
         List<BorrowedBookResponse> bookResponses = allBorrowedBooks.stream()
@@ -124,7 +124,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public Integer updateShareableStatus(Integer bookId, Authentication loggedUser) {
         Book book = repository.findById(bookId).orElseThrow(() -> new EntityNotFoundException("No book found with ID::" + bookId));
-        User user = (User) loggedUser.getPrincipal();
+        //User user = (User) loggedUser.getPrincipal();
         if (book.getCreatedBy().equals(loggedUser.getName())) {
             book.setShareable(!book.isShareable());
             repository.save(book);
@@ -136,7 +136,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public Integer updateArchivedStatus(Integer bookId, Authentication loggedUser) {
         Book book = repository.findById(bookId).orElseThrow(() -> new EntityNotFoundException("No book found with ID::" + bookId));
-        User user = (User) loggedUser.getPrincipal();
+        //User user = (User) loggedUser.getPrincipal();
         if (book.getCreatedBy().equals(loggedUser.getName())) {
             book.setArchived(!book.isArchived());
             repository.save(book);
@@ -148,7 +148,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public Integer borrowBook(Integer bookId, Authentication loggedUser) {
         Book book = findAndValidateBookById(bookId);
-        User user = (User) loggedUser.getPrincipal();
+        //User user = (User) loggedUser.getPrincipal();
         if (!Objects.equals(book.getCreatedBy(), loggedUser.getName())) {
             throw new OperationNotPermittedException("You cannot borrow your own book");
         }
@@ -174,7 +174,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public Integer returnBorrowedBook(Integer bookId, Authentication loggedUser) {
         Book book = findAndValidateBookById(bookId);
-        User user = (User) loggedUser.getPrincipal();
+        //User user = (User) loggedUser.getPrincipal();
 //        if (!Objects.equals(book.getOwner().getId(), loggedUser.getName())) {
 //            throw new OperationNotPermittedException("You cannot borrow or return your own book");
 //        }
@@ -188,7 +188,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public Integer approveReturnBorrowedBook(Integer bookId, Authentication loggedUser) {
         Book book = findAndValidateBookById(bookId);
-        User user = (User) loggedUser.getPrincipal();
+        //User user = (User) loggedUser.getPrincipal();
 //        if (!Objects.equals(book.getCreatedBy(), loggedUser.getName())) {
 //            throw new OperationNotPermittedException("You cannot approve the book that you do not own");
 //        }
@@ -216,7 +216,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public void uploadBookCoverPicture(Integer bookId, MultipartFile file, Authentication loggedUser) {
         Book book = findAndValidateBookById(bookId);
-        //User user = (User) loggedUser.getPrincipal();
+        ////User user = (User) loggedUser.getPrincipal();
         var bookCover = fileStorageService.saveFile(file, bookId);
         book.setBookCover(bookCover);
         repository.save(book);
